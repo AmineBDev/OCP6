@@ -4,6 +4,7 @@ const bookRoutes = require("./routes/book.routes");
 require("dotenv").config({ path: "./config/.env" });
 require("./config/db");
 const app = express();
+const path = require("path");
 
 app.use(express.json());
 
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 // routes
 app.use("/api/auth", userRoutes);
 app.use("/api/books", bookRoutes);
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 // server
 app.listen(process.env.PORT, () => {
