@@ -45,9 +45,8 @@ module.exports.createBook = (req, res) => {
   const book = new bookModel({
     ...bookObject,
     userId: req.auth.userId,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`,
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename
+      }`,
   });
 
   book
@@ -91,34 +90,31 @@ module.exports.addRating = (req, res) => {
 
       // Calcule la moyenne des ratings
       const totalRatings = book.ratings.length;
-      const sumRatings = book.ratings.reduce(
-        (sum, rating) => sum + rating.grade,
-        0
-      );
-      book.averageRating = sumRatings / totalRatings;
+      let sumRatings = 0;
+      if (totalRatings > 0) {
+        sumRatings = book.ratings.reduce((sum, rating) => sum + rating.grade, 0);
+      }
+      book.averageRating = parseFloat((sumRatings / totalRatings).toFixed(1));
 
       return book.save();
     })
     .then((savedBook) => {
-      if (!res.headersSent) {
-        res.status(201).json(savedBook);
-      }
+      res.status(201).json(savedBook);
+
     })
     .catch((error) => {
-      if (!res.headersSent) {
-        res.status(400).json({ error: error.message });
-      }
+      res.status(400).json({ error: error.message });
+
     });
 };
 
 module.exports.updateBook = (req, res) => {
   const bookObject = req.file
     ? {
-        ...JSON.parse(req.body.book),
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${
-          req.file.filename
+      ...JSON.parse(req.body.book),
+      imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename
         }`,
-      }
+    }
     : { ...req.body };
 
   delete bookObject._userId;

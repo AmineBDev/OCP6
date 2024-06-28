@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 
 mongoose
   .connect(
-    "mongodb+srv://" +
-      process.env.DB_USER_PASS +
-      "@ocp6.i4ab4l9.mongodb.net/OCP",
+    process.env.DB_USER_PASS,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))

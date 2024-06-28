@@ -34,7 +34,7 @@ module.exports.signIn = (req, res) => {
           return res.status(401).json({ message: "Mot de passe incorrect" });
         }
         const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
-          expiresIn: "24h",
+          expiresIn: "72h",
         });
 
         res.status(200).json({ userId: user._id, token: token });
