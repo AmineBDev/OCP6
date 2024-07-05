@@ -14,7 +14,11 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, callback) => {
-    callback(null, MIME_TYPES.hasOwnProperty(file.mimetype));
+    if (file) {
+      callback(null, MIME_TYPES.hasOwnProperty(file.mimetype));
+    } else {
+      callback(null, true); // Accepter les requêtes sans fichier
+    }
   },
 }).single("image");
 
@@ -25,7 +29,7 @@ const uploadAndConvert = (req, res, next) => {
     }
 
     if (!req.file) {
-      return res.status(400).json({ error: "Pas de fichier télechargé" });
+      return next();
     }
 
     const newFilename = `${req.file.originalname.split(" ").join("_")}${Date.now()}.webp`;
