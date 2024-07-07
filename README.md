@@ -46,10 +46,10 @@ Utilisez la commande ``npm install`` pour installer les dépendances.
 
 Utilisez la commande ``npm start`` pour lancer le projet.
 
-### Front-end : 
+### Back-end : 
 
 #### Avec npm
 
 Utilisez la commande ``npm install`` pour installer les dépendances.
 
-Utilisez la commande ``npm start`` pour lancer le projet.
+Utilisez la commande ``npm start`` pour lancer le serveur en local.
